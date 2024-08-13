@@ -29,7 +29,8 @@ const formSchema = z.object({
 });
 
 export const CreateCompany = () => {
-  const [file, setFile] = useState(null);
+  const [file1, setFile1] = useState(null);
+  const [file2, setFile2] = useState(null);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -44,21 +45,32 @@ export const CreateCompany = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data)
     try {
+      console.log(file1, file2)
+      const formData = new FormData();
+  
+      formData.append('companyName', data.companyName);
+      formData.append('companyWebpage', data.companyWebpage);
+      formData.append('companyDescription', data.companyDescription);
+      formData.append('productDescription', data.productDescription);
+      formData.append('toneOfVoice', data.toneOfVoice);
+      formData.append('strategy', data.strategy);
+  
+      if (file1 && file2) {
+        formData.append('file1', file1);
+        formData.append('file2', file2);
+      }
+  
       const response = await fetch('/api/form', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        body: formData, // Send as FormData
       });
   
       const result = await response.json();
   
       if (response.ok) {
         toast.success(result.message);
-        window.alert(result.message)
+        window.alert(result.message);
       } else {
         toast.error('Failed to insert data');
       }
@@ -68,9 +80,6 @@ export const CreateCompany = () => {
     }
   };
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
 
   return (
     <div className="w-full p-6 bg-transparent rounded-lg shadow-md">
@@ -116,12 +125,12 @@ export const CreateCompany = () => {
                   <Textarea placeholder="Describe your company..." {...field} />
                 </FormControl>
                 <FormMessage />
-                <Button variant="outline" type="button" onClick={() => document.getElementById('fileInput').click()}>Attach File</Button>
+                <Button variant="outline" type="button" onClick={() => document.getElementById('fileInput1').click()}>Attach File</Button>
                 <input
-                  id="fileInput"
+                  id="fileInput1"
                   type="file"
                   className="hidden"
-                  onChange={handleFileChange}
+                  onChange={(event) => setFile1(event.target.files[0])}
                 />
                 <span className="text-sm text-gray-500">Optional: Attach a file related to your company.</span>
               </FormItem>
@@ -138,12 +147,12 @@ export const CreateCompany = () => {
                   <Textarea placeholder="Describe your product or service..." {...field} />
                 </FormControl>
                 <FormMessage />
-                <Button variant="outline" type="button" onClick={() => document.getElementById('fileInput').click()}>Attach File</Button>
+                <Button variant="outline" type="button" onClick={() => document.getElementById('fileInput2').click()}>Attach File</Button>
                 <input
-                  id="fileInput"
+                  id="fileInput2"
                   type="file"
                   className="hidden"
-                  onChange={handleFileChange}
+                  onChange={(event) => setFile2(event.target.files[0])}
                 />
                 <span className="text-sm text-gray-500">Optional: Attach a file related to your product or service.</span>
               </FormItem>
