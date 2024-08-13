@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import * as z from 'zod';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -27,6 +27,15 @@ const formSchema = z.object({
   toneOfVoice: z.enum(['Simon Sinek', 'Alex Hormozi']),
   strategy: z.enum(['FOMO', 'AMSI']),
 });
+
+type FormData = {
+  companyName: string;
+  companyWebpage: string;
+  companyDescription: string;
+  productDescription: string;
+  toneOfVoice: "Simon Sinek" | "Alex Hormozi";
+  strategy: "FOMO" | "AMSI";
+};
 
 export const CreateCompany = () => {
   const [file1, setFile1] = useState(null);
@@ -44,7 +53,8 @@ export const CreateCompany = () => {
     },
   });
 
-  const onSubmit = async (data) => {
+
+  const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     try {
       console.log(file1, file2)
       const formData = new FormData();
