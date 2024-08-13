@@ -17,6 +17,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 const formSchema = z.object({
   companyName: z.string().min(1, 'Company name is required'),
@@ -42,9 +43,29 @@ export const CreateCompany = () => {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data, file);
-    // Handle form submission
+  const onSubmit = async (data) => {
+    console.log(data)
+    try {
+      const response = await fetch('/api/form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        toast.success(result.message);
+        window.alert(result.message)
+      } else {
+        toast.error('Failed to insert data');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('An unexpected error occurred');
+    }
   };
 
   const handleFileChange = (event) => {
