@@ -9,17 +9,19 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Company {
-  id                String      @id @default(auto()) @map("_id") @db.ObjectId
-  companyName       String
-  companyWebpage    String
+  id                 Int      @id @default(autoincrement())
+  companyName        String
+  companyWebpage     String
   companyDescription String
   productDescription String
-  toneOfVoice       String
-  fomoStrategy      String?
-  amsiStrategy      String?
+  toneOfVoice        String
+  strategy           String
+  file1              String  
+  file2              String  
+  createdAt          DateTime @default(now())
 }
