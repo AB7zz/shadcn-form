@@ -35,6 +35,7 @@ _If you are looking for a React admin dashboard starter, here is the [repo](http
 
 | Pages                                                                             | Specifications                                                                                        |
 | :-------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------- |
+| [Form](https://next-shadcn-dashboard-starter.vercel.app/dashboard/form)           | Form to create a company.                                                                             |
 | [Signup](https://next-shadcn-dashboard-starter.vercel.app/)                       | Authentication with **NextAuth** supports Social logins and email logins(Enter dummy email for demo). |
 | [Dashboard](https://next-shadcn-dashboard-starter.vercel.app/dashboard)           | Cards with recharts graphs for analytics.                                                             |
 | [Users](https://next-shadcn-dashboard-starter.vercel.app/dashboard/user)          | Tanstack tables with user details client side searching, pagination etc                               |
